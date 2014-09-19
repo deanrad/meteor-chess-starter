@@ -16,11 +16,12 @@ if Meteor.isServer
 
 if Meteor.isClient
   Meteor.subscribe "boards"
-  Tracker.autorun (c)->
-    board_count = Boards.find().count()
-    unless c.firstRun
-      @board = _.last(Boards.find().fetch())
-      Board.render(@board) if @board
+
+  Boards.find().observeChanges
+    added: ->
+      console.log("reacting to new move")
+      board = _.last(Boards.find().fetch())
+      Board.render(board) if board
 
   Template.newGame.events
     "click #reset": ->
