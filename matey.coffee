@@ -9,9 +9,19 @@ if Meteor.isServer
   if Boards.find().count() is 0
     Boards.insert Board.initialBoard
 
+  Meteor.methods
+    reset: ->
+      Boards.remove({})
+      Boards.insert Board.initialBoard
+
 if Meteor.isClient
   Meteor.subscribe "boards"
   Tracker.autorun (c)->
     board_count = Boards.find().count()
     unless c.firstRun
-      Board.render( _.last(Boards.find().fetch()) )
+      @board = _.last(Boards.find().fetch())
+      Board.render(@board) if @board
+
+  Template.newGame.events
+    "click #reset": ->
+      Meteor.call "reset"
