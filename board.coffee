@@ -8,7 +8,8 @@
     new ChessBoard @clientId,
       draggable: true
       onDrop: (source, target) ->
-        console.log "Moving from #{source} to #{target}, NOW WHAT?"
+        console.log "Moving from #{source} to #{target}"
+        Boards.insert Board.move(board, source, target)
       position: board.pieces
 
   move: (board, from, to) ->
