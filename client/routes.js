@@ -1,5 +1,3 @@
-Router.configure({
-  layoutTemplate: "layout"
+FlowRouter.route("/", {
+  action() { BlazeLayout.render("layout", {}) }
 })
-
-//Router.route("home", {path: "/"});
